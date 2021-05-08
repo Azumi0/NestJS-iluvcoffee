@@ -1,19 +1,26 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
-  Param, Patch,
+  Param,
+  Patch,
   Post,
-  Res,
+  Query,
+  // Res,
 } from '@nestjs/common';
+import { CoffeesService } from './coffees.service';
 
 @Controller('coffees')
 export class CoffeesController {
-  @Get('')
-  findAll() {
-    return 'This action returns all coffees';
+  constructor(private readonly coffeesService: CoffeesService) {}
+
+  @Get()
+  findAll(@Query() paginationQuery) {
+    // const { limit, offset } = paginationQuery;
+    return this.coffeesService.findAll();
   }
 
   /*This works but makes the code express-frameworks depepndent, so we lose the nest abstraction layer.
@@ -30,12 +37,12 @@ export class CoffeesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return `This action returns #${id} coffee`;
+    return this.coffeesService.findOne(id);
   }
 
   @Post()
   create(@Body() body) {
-    return body;
+    return this.coffeesService.create(body);
   }
 
   @Post('/deprecated')
@@ -46,11 +53,12 @@ export class CoffeesController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() body) {
-    return `This action updates #${id} coffee`;
+    return this.coffeesService.update(id, body);
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string) {
-    return `This action removes #${id} coffee`;
+    return this.coffeesService.remove(id);
   }
 }
