@@ -11,15 +11,16 @@ import {
   COFFEE_PRODUCERS,
 } from '../coffees.constants';
 import {
-  ConfigService,
-  DevelopmentConfigService,
-  ProductionConfigService,
-} from './providers/config.service';
+  CustomConfigService,
+  DevelopmentCustomConfigService,
+  ProductionCustomConfigService,
+} from './providers/customConfigService';
 import { CoffeeBrandsFactory } from './providers/coffee-brands-factory.service';
 import { Connection } from 'typeorm';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
+  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event]), ConfigModule],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
@@ -50,11 +51,11 @@ import { Connection } from 'typeorm';
       useValue: ['whole', 'ground'],
     },
     {
-      provide: ConfigService,
+      provide: CustomConfigService,
       useClass:
         process.env.NODE_ENV === 'development'
-          ? DevelopmentConfigService
-          : ProductionConfigService,
+          ? DevelopmentCustomConfigService
+          : ProductionCustomConfigService,
     },
   ],
   exports: [CoffeesService],
