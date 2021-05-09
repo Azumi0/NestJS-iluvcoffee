@@ -7,13 +7,14 @@ import { DatabaseModule } from '../database/database.module';
   imports: [
     // This is just an example of a dynamic module, you don't need to access the database in this way.
     DatabaseModule.register({
-      // 👈 passing in dynamic values
-      type: 'postgres', // type of our database
-      host: 'localhost', // database host
-      port: 5432, // database host
-      username: 'postgres', // username
-      password: 'pass123', // user password
-      database: 'postgres', // name of our database,
+      factory: (configService) => ({
+        type: 'postgres', // type of our database
+        host: configService.get('DATABASE_HOST'), // database host
+        port: parseInt(configService.get('DATABASE_PORT')), // database host
+        username: configService.get('DATABASE_USER'), // username
+        password: configService.get('DATABASE_PASSWORD'), // user password
+        database: configService.get('DATABASE_NAME'), // name of our database,
+      }),
     }),
     CoffeesModule,
   ],
