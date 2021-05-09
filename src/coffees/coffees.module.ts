@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Scope } from '@nestjs/common';
 import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -29,6 +29,7 @@ import { Connection } from 'typeorm';
       useFactory: (brandsFactory: CoffeeBrandsFactory) =>
         brandsFactory.create(),
       inject: [CoffeeBrandsFactory],
+      scope: Scope.TRANSIENT, // once per consumer (classes are consumers, so if you use this factory in two modules it will spawn 2 instances of the factory)
     },
     {
       provide: COFFEE_PRODUCERS,

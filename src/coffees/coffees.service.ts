@@ -4,6 +4,7 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  Scope,
 } from '@nestjs/common';
 import { Coffee } from './entities/coffee.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,7 +16,7 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_BRANDS, COFFEE_GRAINS } from '../coffees.constants';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST }) // This means that each incoming request will spawn a new instance on this service that will be scrapped after the request will end
 export class CoffeesService {
   constructor(
     @InjectRepository(Coffee)
