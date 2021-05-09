@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
-import { COFFEE_BRANDS } from '../coffees.constants';
-
-class ConfigService {}
-class DevelopmentConfigService {}
-class ProductionConfigService {}
+import { COFFEE_BRANDS, COFFEE_GRAINS } from '../coffees.constants';
+import {
+  ConfigService,
+  DevelopmentConfigService,
+  ProductionConfigService,
+} from './providers/config.service';
+import { CoffeBrandsFactory } from './providers/coffe-brands.factory';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
@@ -18,7 +20,12 @@ class ProductionConfigService {}
     CoffeesService,
     {
       provide: COFFEE_BRANDS,
-      useValue: ['buddy brew', 'nescafe'],
+      useFactory: (brandsFactory: CoffeBrandsFactory) => brandsFactory.create(),
+      inject: [CoffeBrandsFactory],
+    },
+    {
+      provide: COFFEE_GRAINS,
+      useValue: ['whole', 'ground'],
     },
     {
       provide: ConfigService,
