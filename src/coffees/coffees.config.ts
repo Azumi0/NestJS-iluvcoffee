@@ -1,5 +1,12 @@
 import { registerAs } from '@nestjs/config';
 
-export default registerAs('coffees', () => ({
-  foo: 'bar',
-}));
+interface CoffeesConfigurationInterface {
+  foo: string;
+}
+export type CoffeesConfigInterface = () => CoffeesConfigurationInterface;
+export default registerAs(
+  'coffees',
+  (): CoffeesConfigurationInterface => ({
+    foo: 'bar',
+  }),
+);
