@@ -30,7 +30,7 @@ export class CoffeesService {
     @Inject(COFFEE_GRAINS) coffeeGrains: string[],
   ) {
     const databaseHost = this.configService.get<string>(
-      'DATABASE_HOST',
+      'database.host',
       'defaulthost',
     );
     console.log(databaseHost);
