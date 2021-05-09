@@ -8,9 +8,12 @@ import { DatabaseModule } from '../database/database.module';
     // This is just an example of a dynamic module, you don't need to access the database in this way.
     DatabaseModule.register({
       // 👈 passing in dynamic values
-      type: 'postgres',
-      host: 'localhost',
-      password: 'pass123',
+      type: 'postgres', // type of our database
+      host: 'localhost', // database host
+      port: 5432, // database host
+      username: 'postgres', // username
+      password: 'pass123', // user password
+      database: 'postgres', // name of our database,
     }),
     CoffeesModule,
   ],
