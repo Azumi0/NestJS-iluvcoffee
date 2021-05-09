@@ -15,7 +15,7 @@ import {
   DevelopmentConfigService,
   ProductionConfigService,
 } from './providers/config.service';
-import { CoffeBrandsFactory } from './providers/coffe-brands.factory';
+import { CoffeeBrandsFactory } from './providers/coffee-brands-factory.service';
 import { Connection } from 'typeorm';
 
 @Module({
@@ -23,10 +23,12 @@ import { Connection } from 'typeorm';
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
+    CoffeeBrandsFactory,
     {
       provide: COFFEE_BRANDS,
-      useFactory: (brandsFactory: CoffeBrandsFactory) => brandsFactory.create(),
-      inject: [CoffeBrandsFactory],
+      useFactory: (brandsFactory: CoffeeBrandsFactory) =>
+        brandsFactory.create(),
+      inject: [CoffeeBrandsFactory],
     },
     {
       provide: COFFEE_PRODUCERS,

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class CoffeBrandsFactory {
+export class CoffeeBrandsFactory {
   create() {
     /* ... do something ... */
     return ['buddy brew', 'nescafe'];
