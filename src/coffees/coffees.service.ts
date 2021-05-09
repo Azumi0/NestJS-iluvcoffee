@@ -15,8 +15,8 @@ import { Flavor } from './entities/flavor.entity';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_BRANDS, COFFEE_GRAINS } from '../coffees.constants';
-import { ConfigService, ConfigType } from '@nestjs/config';
-import coffeesConfig from './coffees.config';
+import { ConfigService /*, ConfigType*/ } from '@nestjs/config';
+// import coffeesConfig from './coffees.config';
 
 @Injectable({ scope: Scope.REQUEST }) // This means that each incoming request will spawn a new instance on this service that will be scrapped after the request will end
 export class CoffeesService {
@@ -28,9 +28,8 @@ export class CoffeesService {
     private readonly connection: Connection,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
     @Inject(COFFEE_GRAINS) coffeeGrains: string[],
-    private readonly configService: ConfigService,
-    @Inject(coffeesConfig.KEY)
-    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
+    private readonly configService: ConfigService /*@Inject(coffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,*/,
   ) {
     const databaseHost = this.configService.get<string>(
       'database.host',
