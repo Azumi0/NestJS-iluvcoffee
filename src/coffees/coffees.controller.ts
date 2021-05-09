@@ -54,6 +54,12 @@ export class CoffeesController {
     return body;
   }
 
+  @Patch(':id/recommend')
+  async recommend(@Param('id') id: string) {
+    const coffee = await this.coffeesService.findOne(id);
+    return this.coffeesService.recommendCoffee(coffee);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
     return this.coffeesService.update(id, updateCoffeeDto);
